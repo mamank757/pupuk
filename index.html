@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Pupuk Kabupaten - Dark Mode</title>
+
+<style>
+* {
+    font-family: "Times New Roman", Times, serif;
+    box-sizing: border-box;
+}
+
+body {
+    background: #121212; /* Warna dasar gelap */
+    color: #e0e0e0;
+    margin: 0;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 420px; 
+    margin: auto; 
+    padding: 15px;
+}
+
+.card {
+    background: #1e1e1e; /* Warna card sedikit lebih terang */
+    padding: 25px; 
+    border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid #333;
+}
+
+h2 {
+    text-align: center; 
+    color: #4ade80; /* Hijau terang agar kontras di mode gelap */
+    margin-bottom: 5px;
+    font-size: 22px;
+}
+
+h3 {
+    text-align: center; 
+    font-size: 14px; 
+    color: #bbb; 
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #cfcfcf;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input, select {
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 18px; 
+    border-radius: 12px; 
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #4ade80;
+    outline: none;
+    background-color: #333;
+}
+
+/* Tombol tetap Arial */
+button {
+    width: 100%; 
+    padding: 14px; 
+    border: none; 
+    border-radius: 12px; 
+    margin-top: 10px; 
+    font-size: 16px; 
+    font-weight: bold;
+    cursor: pointer;
+    font-family: Arial, sans-serif; 
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.hitung {
+    background: #166534; /* Hijau tua */
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.3);
+}
+
+.wa {
+    background: #075E54; /* Hijau WA Gelap */
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(7, 94, 84, 0.3);
+}
+
+.hasil {
+    margin-top: 25px; 
+    padding: 18px; 
+    background: #142914; /* Background hasil hijau gelap */
+    color: #d1ffd1;
+    border-radius: 12px; 
+    border-left: 5px solid #4ade80;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-top: 30px;
+    padding-bottom: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Styling kalender agar lebih terlihat di mode gelap */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <h2>Kalkulator Dosis Pupuk Wajo</h2>
+        <h3>Sesuai Rekomendasi ERDKK Nasional</h3>
+
+        <label>Kecamatan</label>
+        <select id="kecamatan">
+            <option value="BOLA">BOLA</option>
+            <option value="TAKKALALLA">TAKKALALLA</option>
+            <option value="PENRANG">PENRANG</option>
+            <option value="SAJOANGING">SAJOANGING</option>
+            <option value="PAMMANA">PAMMANA</option>
+            <option value="SABANGPARU">SABANGPARU</option>
+            <option value="TANASITOLO">TANASITOLO</option>
+            <option value="TEMPE">TEMPE</option>
+            <option value="MANIANGPAJO">MANIANGPAJO</option>
+            <option value="BELAWA">BELAWA</option>
+            <option value="PITUMPANUA">PITUMPANUA</option>
+            <option value="KEERA">KEERA</option>
+            <option value="MAJAULENG">MAJAULENG</option>
+            <option value="GILIRENG">GILIRENG</option>
+        </select>
+
+        <label>Luas Lahan (ha)</label>
+        <input type="number" id="luas" placeholder="Contoh: 1.65" step="0.01" min="0">
+
+        <label>Jenis Lahan</label>
+        <select id="lahan">
+            <option value="lembah">Lembah</option>
+            <option value="bukit">Bukit</option>
+            <option value="rawa">Rawa</option>
+        </select>
+
+        <label>Tanggal Tanam</label>
+        <input type="date" id="tanggal">
+
+        <button class="hitung" onclick="hitung()">Hitung Dosis Pemupukan</button>
+        <button class="wa" onclick="kirimWA()">Kirim ke WhatsApp Anda</button>
+
+        <div class="hasil" id="hasil" style="display:none;"></div>
+
+    </div>
+</div>
+
+<div class="footer">
+    Dibuat oleh King Mamank - PPL Bola
+</div>
+
+<script>
+let hasilWA = "";
+
+const data = {
+    BOLA:{urea:175, phonska:375, organik:1000},
+    TAKKALALLA:{urea:150, phonska:300, organik:1000},
+    PENRANG:{urea:200, phonska:300, organik:1000},
+    SAJOANGING:{urea:200, phonska:300, organik:1000},
+    PAMMANA:{urea:200, phonska:300, organik:1000},
+    SABANGPARU:{urea:200, phonska:300, organik:500},
+    TANASITOLO:{urea:200, phonska:300, organik:500},
+    TEMPE:{urea:200, phonska:300, organik:1000},
+    MANIANGPAJO:{urea:200, phonska:300, organik:500},
+    BELAWA:{urea:225, phonska:250, organik:500},
+    PITUMPANUA:{urea:250, phonska:300, organik:500},
+    KEERA:{urea:250, phonska:300, organik:1000},
+    MAJAULENG:{urea:200, phonska:300, organik:500},
+    GILIRENG:{urea:200, phonska:300, organik:1000}
+};
+
+function faktor(lahan, nilai){
+    if(lahan === "lembah") return nilai * 0.9;
+    if(lahan === "rawa") return nilai * 0.8;
+    return nilai; 
+}
+
+function sak(kg){
+    return Math.round(kg / 25) / 2;
+}
+
+function tambahHari(tgl,hari){
+    let t=new Date(tgl);
+    t.setDate(t.getDate()+hari);
+    return t.toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function hitung(){
+    let kec=document.getElementById("kecamatan").value;
+    let luas=document.getElementById("luas").value;
+    let lahan=document.getElementById("lahan").value;
+    let tanggal=document.getElementById("tanggal").value;
+
+    if(!luas||!tanggal){alert("Mohon isi luas lahan dan tanggal tanam!");return;}
+
+    let d=data[kec];
+
+    let u1=luas*faktor(lahan,d.urea*0.57);
+    let u2=luas*faktor(lahan,d.urea*0.43);
+
+    let p1=luas*faktor(lahan,d.phonska*0.4);
+    let p2=luas*faktor(lahan,d.phonska*0.3);
+    let p3=luas*faktor(lahan,d.phonska*0.3);
+
+    let org=luas*faktor(lahan,d.organik);
+
+    let t1=tambahHari(tanggal,7);
+    let t2=tambahHari(tanggal,30);
+    let t3=tambahHari(tanggal,40);
+
+    let hasilHTML=`
+    <div style="border-bottom: 1px solid #4ade80; margin-bottom: 10px; padding-bottom: 5px;">
+    <b>Rekomendasi Kecamatan: ${kec}</b>
+    </div>
+    🌱 <b>Pupuk Organik (Dasar)</b><br>
+    Dosis: ${org.toFixed(0)} kg (${sak(org)} sak)<br><br>
+
+    🌱 <b>Pemupukan I (${t1})</b><br>
+    Urea: ${u1.toFixed(0)} kg (${sak(u1)} sak)<br>
+    Phonska: ${p1.toFixed(0)} kg (${sak(p1)} sak)<br><br>
+
+    🌾 <b>Pemupukan II (${t2})</b><br>
+    Urea: ${u2.toFixed(0)} kg (${sak(u2)} sak)<br>
+    Phonska: ${p2.toFixed(0)} kg (${sak(p2)} sak)<br><br>
+
+    🌿 <b>Pemupukan III (${t3})</b><br>
+    Phonska: ${p3.toFixed(0)} kg (${sak(p3)} sak)
+    `;
+
+    hasilWA = `*REKOMENDASI DOSIS PUPUK*\n` +
+              `Kecamatan: ${kec}\n\n` +
+              `🌱 *Organik (Dasar)*: ${org.toFixed(0)} kg (${sak(org)} sak)\n\n` +
+              `🌱 *Pupuk I (${t1})*\n` +
+              `- Urea: ${u1.toFixed(0)} kg\n` +
+              `- Phonska: ${p1.toFixed(0)} kg\n\n` +
+              `🌾 *Pupuk II (${t2})*\n` +
+              `- Urea: ${u2.toFixed(0)} kg\n` +
+              `- Phonska: ${p2.toFixed(0)} kg\n\n` +
+              `🌿 *Pupuk III (${t3})*\n` +
+              `- Phonska: ${p3.toFixed(0)} kg\n\n` +
+              `_Dihitung via Kalkulator PPL Bola_`;
+
+    let div=document.getElementById("hasil");
+    div.style.display="block";
+    div.innerHTML=hasilHTML;
+    div.scrollIntoView({ behavior: 'smooth' });
+}
+
+function kirimWA(){
+    if(!hasilWA){alert("Silakan hitung dosis dulu!");return;}
+    window.open("https://wa.me/?text="+encodeURIComponent(hasilWA));
+}
+</script>
+</body>
+</html>
