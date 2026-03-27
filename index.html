@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalkulator Pupuk Kabupaten - Dark Mode</title>
+<title>Kalkulator Pupuk Kabupaten - Total Rekap Version</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
+/* Reset dasar untuk Google Sites */
 * {
-    font-family: "Times New Roman", Times, serif;
+    font-family: Arial, sans-serif;
     box-sizing: border-box;
 }
 
@@ -16,223 +17,176 @@ body {
     background: #121212; 
     color: #e0e0e0;
     margin: 0;
-    padding: 20px 0;
-}
-
-.container {
-    max-width: 420px; 
-    margin: auto; 
-    padding: 15px;
+    padding: 10px;
+    overflow-x: hidden;
 }
 
 .card {
     background: #1e1e1e; 
-    padding: 25px; 
-    border-radius: 20px; 
-    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    padding: 20px; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     border: 1px solid #333;
+    width: 100%;
 }
 
 h2 {
     text-align: center; 
     color: #4ade80; 
-    margin-bottom: 5px;
-    font-size: 24px;
+    margin-bottom: 3px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 h3 {
     text-align: center; 
-    font-size: 14px; 
+    font-size: 10px; 
     color: #bbb; 
     font-weight: normal;
     margin-top: 0;
-    margin-bottom: 25px;
+    margin-bottom: 12px;
 }
 
 .input-group {
-    margin-bottom: 18px;
+    margin-bottom: 15px;
 }
 
 label {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 13px;
     color: #cfcfcf;
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 6px;
+    margin-bottom: 6px;
 }
 
-/* Ukuran ikon di label */
-label i {
-    width: 16px;
-    color: #4ade80;
-}
+label i { width: 14px; color: #4ade80; }
 
 input, select {
     width: 100%; 
-    padding: 12px 15px; 
-    border-radius: 12px; 
+    padding: 10px; 
+    border-radius: 10px; 
     border: 1px solid #444;
     background-color: #2a2a2a;
     color: #fff;
     font-size: 15px;
-    transition: all 0.3s;
-}
-
-input:focus, select:focus {
-    border-color: #4ade80;
-    outline: none;
-    box-shadow: 0 0 8px rgba(74, 222, 128, 0.2);
-    background-color: #333;
 }
 
 button {
     width: 100%; 
-    padding: 14px; 
+    padding: 12px; 
     border: none; 
-    border-radius: 12px; 
-    margin-top: 12px; 
-    font-size: 16px; 
+    border-radius: 10px; 
+    margin-top: 5px; 
+    font-size: 15px; 
     font-weight: bold;
     cursor: pointer;
-    font-family: Arial, sans-serif; 
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    transition: all 0.2s;
-}
-
-button i {
-    width: 20px;
-}
-
-button:active {
-    transform: scale(0.96);
+    gap: 8px;
 }
 
 .hitung {
-    background: #105e8f;
-    color: #ffffff;
-    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.4);
-}
-
-.hitung:hover {
-    filter: brightness(1.2);
+    background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+    color: white;
 }
 
 .wa {
-    background: #1a8f45; /* Warna WA asli lebih segar */
-    color: #ffffff;
-    font-weight: 800;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-}
-
-.wa:hover {
-    background: #20ba5a;
+    background: #25D366; 
+    color: #075E54;
+    margin-bottom: 10px;
 }
 
 .hasil {
-    margin-top: 25px; 
-    padding: 18px; 
+    margin-top: 15px; 
+    padding: 15px; 
     background: #000;
     color: #e0e0e0;
-    border-radius: 15px; 
+    border-radius: 12px; 
     border: 1px solid #4ade80;
     line-height: 1.6;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .footer {
     text-align: center;
-    font-size: 12px;
-    color: #666;
-    margin-top: 30px;
-    padding-bottom: 20px;
-    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: white;
+    margin-top: 8px;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    cursor: pointer;
-}
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <div class="card">
+<div class="card">
+    <h2><i data-lucide="sprout"></i> Kalkulator Pupuk</h2>
+    <h3>Sesuai Rekomendasi ERDKK Nasional</h3>
 
-        <h2><i data-lucide="sprout"></i> Kalkulator Pupuk</h2>
-        <h3>Sesuai Rekomendasi ERDKK Nasional</h3>
+    <div class="input-group">
+        <label><i data-lucide="map-pin"></i> Kecamatan</label>
+        <select id="kecamatan">
+            <option value="BOLA">BOLA</option>
+            <option value="TAKKALALLA">TAKKALALLA</option>
+            <option value="PENRANG">PENRANG</option>
+            <option value="SAJOANGING">SAJOANGING</option>
+            <option value="PAMMANA">PAMMANA</option>
+            <option value="SABANGPARU">SABANGPARU</option>
+            <option value="TANASITOLO">TANASITOLO</option>
+            <option value="TEMPE">TEMPE</option>
+            <option value="MANIANGPAJO">MANIANGPAJO</option>
+            <option value="BELAWA">BELAWA</option>
+            <option value="PITUMPANUA">PITUMPANUA</option>
+            <option value="KEERA">KEERA</option>
+            <option value="MAJAULENG">MAJAULENG</option>
+            <option value="GILIRENG">GILIRENG</option>
+        </select>
+    </div>
 
-        <div class="input-group">
-            <label><i data-lucide="map-pin"></i> Kecamatan</label>
-            <select id="kecamatan">
-                <option value="BOLA">BOLA</option>
-                <option value="TAKKALALLA">TAKKALALLA</option>
-                <option value="PENRANG">PENRANG</option>
-                <option value="SAJOANGING">SAJOANGING</option>
-                <option value="PAMMANA">PAMMANA</option>
-                <option value="SABANGPARU">SABANGPARU</option>
-                <option value="TANASITOLO">TANASITOLO</option>
-                <option value="TEMPE">TEMPE</option>
-                <option value="MANIANGPAJO">MANIANGPAJO</option>
-                <option value="BELAWA">BELAWA</option>
-                <option value="PITUMPANUA">PITUMPANUA</option>
-                <option value="KEERA">KEERA</option>
-                <option value="MAJAULENG">MAJAULENG</option>
-                <option value="GILIRENG">GILIRENG</option>
-            </select>
-        </div>
+    <div class="input-group">
+        <label><i data-lucide="maximize"></i> Luas Lahan (ha)</label>
+        <input type="number" id="luas" placeholder="Contoh: 1.65" step="0.01" min="0">
+    </div>
 
-        <div class="input-group">
-            <label><i data-lucide="maximize"></i> Luas Lahan (ha)</label>
-            <input type="number" id="luas" placeholder="Contoh: 1.65" step="0.01" min="0">
-        </div>
+    <div class="input-group">
+        <label><i data-lucide="mountain"></i> Jenis Topografi Lahan</label>
+        <select id="lahan">
+            <option value="bukit">Bukit (Dataran Tinggi)</option>
+            <option value="lembah">Lembah (Dataran Rendah)</option>
+            <option value="rawa">Rawa / Daerah Aliran Sungai</option>
+        </select>
+    </div>
 
-        <div class="input-group">
-            <label><i data-lucide="mountain"></i> Jenis Lahan</label>
-            <select id="lahan">
-                <option value="lembah">Lembah</option>
-                <option value="bukit">Bukit</option>
-                <option value="rawa">Rawa</option>
-            </select>
-        </div>
+    <div class="input-group">
+        <label><i data-lucide="calendar"></i> Tanggal Tanam</label>
+        <input type="date" id="tanggal">
+    </div>
 
-        <div class="input-group">
-            <label><i data-lucide="calendar"></i> Tanggal Tanam</label>
-            <input type="date" id="tanggal">
-        </div>
+    <button class="hitung" onclick="hitung()">
+        <i data-lucide="calculator"></i> Hitung Dosis
+    </button>
+    <button class="wa" onclick="kirimWA()">
+        <i data-lucide="message-circle"></i> Kirim WhatsApp
+    </button>
 
-        <button class="hitung" onclick="hitung()">
-            <i data-lucide="calculator"></i> Hitung Dosis Pemupukan
-        </button>
-        <button class="wa" onclick="kirimWA()">
-            <i data-lucide="message-circle"></i> Kirim ke WhatsApp Anda
-        </button>
-
-        <div class="hasil" id="hasil" style="display:none;"></div>
-
+    <div class="hasil" id="hasil" style="display:none;"></div>
+    
+    <div class="footer">
+        Dibuat oleh King Mamank - PPL Bola
     </div>
 </div>
 
-<div class="footer">
-    Dibuat oleh King Mamank - PPL Bola
-</div>
-
 <script>
-// Inisialisasi ikon Lucide
 lucide.createIcons();
 
 let hasilWA = "";
-
 const data = {
     BOLA:{urea:175, phonska:375, organik:1000},
     TAKKALALLA:{urea:150, phonska:300, organik:1000},
@@ -272,63 +226,82 @@ function hitung(){
     let lahan=document.getElementById("lahan").value;
     let tanggal=document.getElementById("tanggal").value;
 
-    if(!luas||!tanggal){alert("Mohon isi luas lahan dan tanggal tanam!");return;}
+    if(!luas||!tanggal){alert("Isi data dulu!");return;}
 
     let d=data[kec];
-
+    
+    // Perhitungan Tahapan
     let u1=luas*faktor(lahan,d.urea*0.57);
     let u2=luas*faktor(lahan,d.urea*0.43);
-
+    
     let p1=luas*faktor(lahan,d.phonska*0.4);
     let p2=luas*faktor(lahan,d.phonska*0.3);
     let p3=luas*faktor(lahan,d.phonska*0.3);
-
+    
     let org=luas*faktor(lahan,d.organik);
+
+    // TOTAL KESELURUHAN
+    let totalUrea = u1 + u2;
+    let totalPhonska = p1 + p2 + p3;
 
     let t1=tambahHari(tanggal,7);
     let t2=tambahHari(tanggal,30);
     let t3=tambahHari(tanggal,40);
 
+    // TAMPILAN HTML
     let hasilHTML=`
-    <div style="border-bottom: 1px solid #4ade80; margin-bottom: 12px; padding-bottom: 8px;">
+    <div style="border-bottom: 1px solid #4ade80; margin-bottom: 10px; padding-bottom: 5px;">
     <b style="color:#4ade80">📍 Hasil Kecamatan: ${kec}</b>
     </div>
-    🌱 <b>Pupuk Organik (Dasar)</b><br>
-    Dosis: ${org.toFixed(0)} kg (${sak(org)} sak)<br><br>
+    
+    🌱 <b>Organik (Dasar)</b><br>
+    - Dosis: ${org.toFixed(0)} kg (${sak(org)} sak)<br><br>
 
-    🌿 <b>Pemupukan I (${t1})</b><br>
-    Urea: ${u1.toFixed(0)} kg (${sak(u1)} sak)<br>
-    Phonska: ${p1.toFixed(0)} kg (${sak(p1)} sak)<br><br>
+    🌱 <b>Pemupukan I (${t1})</b><br>
+    - Urea: ${u1.toFixed(0)} kg (${sak(u1)} sak)<br>
+    - Phonska: ${p1.toFixed(0)} kg (${sak(p1)} sak)<br><br>
 
     🌾 <b>Pemupukan II (${t2})</b><br>
-    Urea: ${u2.toFixed(0)} kg (${sak(u2)} sak)<br>
-    Phonska: ${p2.toFixed(0)} kg (${sak(p2)} sak)<br><br>
+    - Urea: ${u2.toFixed(0)} kg (${sak(u2)} sak)<br>
+    - Phonska: ${p2.toFixed(0)} kg (${sak(p2)} sak)<br><br>
 
-    🌾 <b>Pemupukan III (${t3})</b><br>
-    Phonska: ${p3.toFixed(0)} kg (${sak(p3)} sak)
+    🌿 <b>Pemupukan III (${t3})</b><br>
+    - Phonska: ${p3.toFixed(0)} kg (${sak(p3)} sak)<br><hr style="border:0; border-top:1px dashed #4ade80; margin:10px 0;">
+
+    <div style="background:#166534; padding:10px; border-radius:8px;">
+    <b>📊 TOTAL KEBUTUHAN PUPUK:</b><br>
+    - <b>Total Urea: ${totalUrea.toFixed(0)} kg (${sak(totalUrea)} sak)</b><br>
+    - <b>Total Phonska: ${totalPhonska.toFixed(0)} kg (${sak(totalPhonska)} sak)</b>
+    </div>
     `;
 
-    hasilWA = `*REKOMENDASI DOSIS PUPUK*\n` +
-              `Kecamatan: ${kec}\n\n` +
-              `🌱 *Organik (Dasar)*: ${org.toFixed(0)} kg (${sak(org)} sak)\n\n` +
-              `🌱 *Pupuk I (${t1})*\n` +
-              `- Urea: ${u1.toFixed(0)} kg\n` +
-              `- Phonska: ${p1.toFixed(0)} kg\n\n` +
-              `🌾 *Pupuk II (${t2})*\n` +
-              `- Urea: ${u2.toFixed(0)} kg\n` +
-              `- Phonska: ${p2.toFixed(0)} kg\n\n` +
-              `🌿 *Pupuk III (${t3})*\n` +
-              `- Phonska: ${p3.toFixed(0)} kg\n\n` +
+    // FORMAT WHATSAPP
+    hasilWA = `*HASIL REKOMENDASI PUPUK*\n` +
+              `Kecamatan: ${kec}\n` +
+              `Luas Lahan: ${luas} Ha\n\n` +
+              `📦 *Organik (Dasar)*: ${org.toFixed(0)} kg (${sak(org)} sak)\n\n` +
+              `💧 *Pupuk I (${t1})*:\n` +
+              `- Urea: ${u1.toFixed(0)} kg (${sak(u1)} sak)\n` +
+              `- Phonska: ${p1.toFixed(0)} kg (${sak(p1)} sak)\n\n` +
+              `💧 *Pupuk II (${t2})*:\n` +
+              `- Urea: ${u2.toFixed(0)} kg (${sak(u2)} sak)\n` +
+              `- Phonska: ${p2.toFixed(0)} kg (${sak(p2)} sak)\n\n` +
+              `💧 *Pupuk III (${t3})*:\n` +
+              `- Phonska: ${p3.toFixed(0)} kg (${sak(p3)} sak)\n\n` +
+              `---------------------------\n` +
+              `📊 *TOTAL KEBUTUHAN:*\n` +
+              `*Total Urea: ${totalUrea.toFixed(0)} kg (${sak(totalUrea)} sak)*\n` +
+              `*Total Phonska: ${totalPhonska.toFixed(0)} kg (${sak(totalPhonska)} sak)*\n\n` +
               `_Dihitung via Kalkulator PPL Bola_`;
 
     let div=document.getElementById("hasil");
     div.style.display="block";
     div.innerHTML=hasilHTML;
-    div.scrollIntoView({ behavior: 'smooth' });
+    lucide.createIcons(); 
 }
 
 function kirimWA(){
-    if(!hasilWA){alert("Silakan hitung dosis dulu!");return;}
+    if(!hasilWA){alert("Hitung dulu!");return;}
     window.open("https://wa.me/?text="+encodeURIComponent(hasilWA));
 }
 </script>
