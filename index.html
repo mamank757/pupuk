@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalkulator Pupuk Kabupaten - Total Rekap Version</title>
+<title>Kalkulator Pupuk Kabupaten - Google Sites Version</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
@@ -47,11 +47,11 @@ h3 {
     color: #bbb; 
     font-weight: normal;
     margin-top: 0;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 label {
@@ -73,7 +73,7 @@ input, select {
     border: 1px solid #444;
     background-color: #2a2a2a;
     color: #fff;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 button {
@@ -81,8 +81,8 @@ button {
     padding: 12px; 
     border: none; 
     border-radius: 10px; 
-    margin-top: 5px; 
-    font-size: 15px; 
+    margin-top: 8px; 
+    font-size: 14px; 
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -110,14 +110,22 @@ button {
     border-radius: 12px; 
     border: 1px solid #4ade80;
     line-height: 1.6;
-    font-size: 14px;
+    font-size: 13px;
+}
+
+.rekap-total {
+    background: #166534;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border-left: 4px solid #4ade80;
 }
 
 .footer {
     text-align: center;
-    font-size: 13px;
-    color: white;
-    margin-top: 8px;
+    font-size: 11px;
+    color: #888;
+    margin-top: 15px;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
@@ -205,8 +213,8 @@ const data = {
 };
 
 function faktor(lahan, nilai){
-    if(lahan === "lembah") return nilai * 0.9;
-    if(lahan === "rawa") return nilai * 0.8;
+    if(lahan === "lembah") return nilai * 0.7;
+    if(lahan === "rawa") return nilai * 0.5;
     return nilai; 
 }
 
@@ -230,17 +238,17 @@ function hitung(){
 
     let d=data[kec];
     
-    // Perhitungan Tahapan
+    // Perhitungan Tahapan (Organik Sekarang Menyesuaikan Topografi)
+    let org=luas*faktor(lahan,d.organik);
+
     let u1=luas*faktor(lahan,d.urea*0.57);
     let u2=luas*faktor(lahan,d.urea*0.43);
     
     let p1=luas*faktor(lahan,d.phonska*0.4);
     let p2=luas*faktor(lahan,d.phonska*0.3);
     let p3=luas*faktor(lahan,d.phonska*0.3);
-    
-    let org=luas*faktor(lahan,d.organik);
 
-    // TOTAL KESELURUHAN
+    // Total Rekap
     let totalUrea = u1 + u2;
     let totalPhonska = p1 + p2 + p3;
 
@@ -248,37 +256,36 @@ function hitung(){
     let t2=tambahHari(tanggal,30);
     let t3=tambahHari(tanggal,40);
 
-    // TAMPILAN HTML
     let hasilHTML=`
     <div style="border-bottom: 1px solid #4ade80; margin-bottom: 10px; padding-bottom: 5px;">
-    <b style="color:#4ade80">📍 Hasil Kecamatan: ${kec}</b>
+    <b style="color:#4ade80">📍 Hasil: ${kec} (${lahan})</b>
     </div>
     
-    🌱 <b>Organik (Dasar)</b><br>
-    - Dosis: ${org.toFixed(0)} kg (${sak(org)} sak)<br><br>
+    <b>📦 Organik (Dasar)</b><br>
+    ${org.toFixed(0)} kg (${sak(org)} sak)<br><br>
 
-    🌱 <b>Pemupukan I (${t1})</b><br>
+    <b>💧 Pupuk I (${t1})</b><br>
     - Urea: ${u1.toFixed(0)} kg (${sak(u1)} sak)<br>
     - Phonska: ${p1.toFixed(0)} kg (${sak(p1)} sak)<br><br>
 
-    🌾 <b>Pemupukan II (${t2})</b><br>
+    <b>💧 Pupuk II (${t2})</b><br>
     - Urea: ${u2.toFixed(0)} kg (${sak(u2)} sak)<br>
     - Phonska: ${p2.toFixed(0)} kg (${sak(p2)} sak)<br><br>
 
-    🌿 <b>Pemupukan III (${t3})</b><br>
-    - Phonska: ${p3.toFixed(0)} kg (${sak(p3)} sak)<br><hr style="border:0; border-top:1px dashed #4ade80; margin:10px 0;">
+    <b>💧 Pupuk III (${t3})</b><br>
+    - Phonska: ${p3.toFixed(0)} kg (${sak(p3)} sak)<br>
 
-    <div style="background:#166534; padding:10px; border-radius:8px;">
-    <b>📊 TOTAL KEBUTUHAN PUPUK:</b><br>
-    - <b>Total Urea: ${totalUrea.toFixed(0)} kg (${sak(totalUrea)} sak)</b><br>
-    - <b>Total Phonska: ${totalPhonska.toFixed(0)} kg (${sak(totalPhonska)} sak)</b>
+    <div class="rekap-total">
+        <b>📊 REKAP TOTAL KEBUTUHAN:</b><br>
+        • Total Urea: ${totalUrea.toFixed(0)} kg (${sak(totalUrea)} sak)<br>
+        • Total Phonska: ${totalPhonska.toFixed(0)} kg (${sak(totalPhonska)} sak)<br>
+        • Total Organik: ${org.toFixed(0)} kg (${sak(org)} sak)
     </div>
     `;
 
-    // FORMAT WHATSAPP
     hasilWA = `*HASIL REKOMENDASI PUPUK*\n` +
               `Kecamatan: ${kec}\n` +
-              `Luas Lahan: ${luas} Ha\n\n` +
+              `Topografi: ${lahan}\n\n` +
               `📦 *Organik (Dasar)*: ${org.toFixed(0)} kg (${sak(org)} sak)\n\n` +
               `💧 *Pupuk I (${t1})*:\n` +
               `- Urea: ${u1.toFixed(0)} kg (${sak(u1)} sak)\n` +
@@ -291,7 +298,8 @@ function hitung(){
               `---------------------------\n` +
               `📊 *TOTAL KEBUTUHAN:*\n` +
               `*Total Urea: ${totalUrea.toFixed(0)} kg (${sak(totalUrea)} sak)*\n` +
-              `*Total Phonska: ${totalPhonska.toFixed(0)} kg (${sak(totalPhonska)} sak)*\n\n` +
+              `*Total Phonska: ${totalPhonska.toFixed(0)} kg (${sak(totalPhonska)} sak)*\n` +
+              `*Total Organik: ${org.toFixed(0)} kg (${sak(org)} sak)*\n\n` +
               `_Dihitung via Kalkulator PPL Bola_`;
 
     let div=document.getElementById("hasil");
