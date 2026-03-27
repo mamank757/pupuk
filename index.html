@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kalkulator Pupuk Kabupaten - Dark Mode</title>
+<script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
 * {
@@ -12,7 +13,7 @@
 }
 
 body {
-    background: #121212; /* Warna dasar gelap */
+    background: #121212; 
     color: #e0e0e0;
     margin: 0;
     padding: 20px 0;
@@ -25,18 +26,22 @@ body {
 }
 
 .card {
-    background: #1e1e1e; /* Warna card sedikit lebih terang */
+    background: #1e1e1e; 
     padding: 25px; 
     border-radius: 20px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
     border: 1px solid #333;
 }
 
 h2 {
     text-align: center; 
-    color: #4ade80; /* Hijau terang agar kontras di mode gelap */
+    color: #4ade80; 
     margin-bottom: 5px;
-    font-size: 22px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 h3 {
@@ -48,18 +53,29 @@ h3 {
     margin-bottom: 25px;
 }
 
+.input-group {
+    margin-bottom: 18px;
+}
+
 label {
     font-weight: bold;
     font-size: 14px;
     color: #cfcfcf;
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 8px;
+}
+
+/* Ukuran ikon di label */
+label i {
+    width: 16px;
+    color: #4ade80;
 }
 
 input, select {
     width: 100%; 
-    padding: 12px; 
-    margin-bottom: 18px; 
+    padding: 12px 15px; 
     border-radius: 12px; 
     border: 1px solid #444;
     background-color: #2a2a2a;
@@ -71,46 +87,63 @@ input, select {
 input:focus, select:focus {
     border-color: #4ade80;
     outline: none;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.2);
     background-color: #333;
 }
 
-/* Tombol tetap Arial */
 button {
     width: 100%; 
     padding: 14px; 
     border: none; 
     border-radius: 12px; 
-    margin-top: 10px; 
+    margin-top: 12px; 
     font-size: 16px; 
     font-weight: bold;
     cursor: pointer;
     font-family: Arial, sans-serif; 
-    transition: transform 0.1s, opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+button i {
+    width: 20px;
 }
 
 button:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
 }
 
 .hitung {
-    background: #166534; /* Hijau tua */
+    background: #105e8f;
     color: #ffffff;
-    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.3);
+    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.4);
+}
+
+.hitung:hover {
+    filter: brightness(1.2);
 }
 
 .wa {
-    background: #075E54; /* Hijau WA Gelap */
+    background: #1a8f45; /* Warna WA asli lebih segar */
     color: #ffffff;
-    box-shadow: 0 4px 15px rgba(7, 94, 84, 0.3);
+    font-weight: 800;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.wa:hover {
+    background: #20ba5a;
 }
 
 .hasil {
     margin-top: 25px; 
     padding: 18px; 
-    background: #142914; /* Background hasil hijau gelap */
-    color: #d1ffd1;
-    border-radius: 12px; 
-    border-left: 5px solid #4ade80;
+    background: #000;
+    color: #e0e0e0;
+    border-radius: 15px; 
+    border: 1px solid #4ade80;
     line-height: 1.6;
     font-size: 15px;
 }
@@ -124,9 +157,9 @@ button:active {
     font-family: Arial, sans-serif;
 }
 
-/* Styling kalender agar lebih terlihat di mode gelap */
 input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
+    cursor: pointer;
 }
 </style>
 </head>
@@ -136,42 +169,54 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 <div class="container">
     <div class="card">
 
-        <h2>Kalkulator Dosis Pupuk Wajo</h2>
+        <h2><i data-lucide="sprout"></i> Kalkulator Pupuk</h2>
         <h3>Sesuai Rekomendasi ERDKK Nasional</h3>
 
-        <label>Kecamatan</label>
-        <select id="kecamatan">
-            <option value="BOLA">BOLA</option>
-            <option value="TAKKALALLA">TAKKALALLA</option>
-            <option value="PENRANG">PENRANG</option>
-            <option value="SAJOANGING">SAJOANGING</option>
-            <option value="PAMMANA">PAMMANA</option>
-            <option value="SABANGPARU">SABANGPARU</option>
-            <option value="TANASITOLO">TANASITOLO</option>
-            <option value="TEMPE">TEMPE</option>
-            <option value="MANIANGPAJO">MANIANGPAJO</option>
-            <option value="BELAWA">BELAWA</option>
-            <option value="PITUMPANUA">PITUMPANUA</option>
-            <option value="KEERA">KEERA</option>
-            <option value="MAJAULENG">MAJAULENG</option>
-            <option value="GILIRENG">GILIRENG</option>
-        </select>
+        <div class="input-group">
+            <label><i data-lucide="map-pin"></i> Kecamatan</label>
+            <select id="kecamatan">
+                <option value="BOLA">BOLA</option>
+                <option value="TAKKALALLA">TAKKALALLA</option>
+                <option value="PENRANG">PENRANG</option>
+                <option value="SAJOANGING">SAJOANGING</option>
+                <option value="PAMMANA">PAMMANA</option>
+                <option value="SABANGPARU">SABANGPARU</option>
+                <option value="TANASITOLO">TANASITOLO</option>
+                <option value="TEMPE">TEMPE</option>
+                <option value="MANIANGPAJO">MANIANGPAJO</option>
+                <option value="BELAWA">BELAWA</option>
+                <option value="PITUMPANUA">PITUMPANUA</option>
+                <option value="KEERA">KEERA</option>
+                <option value="MAJAULENG">MAJAULENG</option>
+                <option value="GILIRENG">GILIRENG</option>
+            </select>
+        </div>
 
-        <label>Luas Lahan (ha)</label>
-        <input type="number" id="luas" placeholder="Contoh: 1.65" step="0.01" min="0">
+        <div class="input-group">
+            <label><i data-lucide="maximize"></i> Luas Lahan (ha)</label>
+            <input type="number" id="luas" placeholder="Contoh: 1.65" step="0.01" min="0">
+        </div>
 
-        <label>Jenis Lahan</label>
-        <select id="lahan">
-            <option value="lembah">Lembah</option>
-            <option value="bukit">Bukit</option>
-            <option value="rawa">Rawa</option>
-        </select>
+        <div class="input-group">
+            <label><i data-lucide="mountain"></i> Jenis Lahan</label>
+            <select id="lahan">
+                <option value="lembah">Lembah</option>
+                <option value="bukit">Bukit</option>
+                <option value="rawa">Rawa</option>
+            </select>
+        </div>
 
-        <label>Tanggal Tanam</label>
-        <input type="date" id="tanggal">
+        <div class="input-group">
+            <label><i data-lucide="calendar"></i> Tanggal Tanam</label>
+            <input type="date" id="tanggal">
+        </div>
 
-        <button class="hitung" onclick="hitung()">Hitung Dosis Pemupukan</button>
-        <button class="wa" onclick="kirimWA()">Kirim ke WhatsApp Anda</button>
+        <button class="hitung" onclick="hitung()">
+            <i data-lucide="calculator"></i> Hitung Dosis Pemupukan
+        </button>
+        <button class="wa" onclick="kirimWA()">
+            <i data-lucide="message-circle"></i> Kirim ke WhatsApp Anda
+        </button>
 
         <div class="hasil" id="hasil" style="display:none;"></div>
 
@@ -183,6 +228,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 </div>
 
 <script>
+// Inisialisasi ikon Lucide
+lucide.createIcons();
+
 let hasilWA = "";
 
 const data = {
@@ -242,13 +290,13 @@ function hitung(){
     let t3=tambahHari(tanggal,40);
 
     let hasilHTML=`
-    <div style="border-bottom: 1px solid #4ade80; margin-bottom: 10px; padding-bottom: 5px;">
-    <b>Rekomendasi Kecamatan: ${kec}</b>
+    <div style="border-bottom: 1px solid #4ade80; margin-bottom: 12px; padding-bottom: 8px;">
+    <b style="color:#4ade80">📍 Hasil Kecamatan: ${kec}</b>
     </div>
     🌱 <b>Pupuk Organik (Dasar)</b><br>
     Dosis: ${org.toFixed(0)} kg (${sak(org)} sak)<br><br>
 
-    🌱 <b>Pemupukan I (${t1})</b><br>
+    🌿 <b>Pemupukan I (${t1})</b><br>
     Urea: ${u1.toFixed(0)} kg (${sak(u1)} sak)<br>
     Phonska: ${p1.toFixed(0)} kg (${sak(p1)} sak)<br><br>
 
@@ -256,7 +304,7 @@ function hitung(){
     Urea: ${u2.toFixed(0)} kg (${sak(u2)} sak)<br>
     Phonska: ${p2.toFixed(0)} kg (${sak(p2)} sak)<br><br>
 
-    🌿 <b>Pemupukan III (${t3})</b><br>
+    🌾 <b>Pemupukan III (${t3})</b><br>
     Phonska: ${p3.toFixed(0)} kg (${sak(p3)} sak)
     `;
 
